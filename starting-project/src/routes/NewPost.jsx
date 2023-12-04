@@ -1,46 +1,19 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Form, redirect } from "react-router-dom";
 
 import classes from './NewPost.module.css';
 import Modal from "../components/Modal";
 
-function NewPost({ onAddPost }) {
-    const [enteredBody, setEnteredBody] = useState("");
-    const [enteredAuthor, setEnteredAuthor] = useState("");
-
-    //textarea에 이벤트가 발생하면 호출되는 함수, 입력값 관리 함수
-    function bodyChangeHandler(event) {
-        setEnteredBody(event.target.value);
-    }
-
-    function authorChangeHandler(event) {
-        setEnteredAuthor(event.target.value);
-    }
-
-    //submit되면 실행될 함수, onSubmit의 value가 된다.
-    //onSubmit에 연결되어 있으므로 event 객체가 매개변수로 들어온다.
-    function submitHandler(event) {
-        event.preventDefault(); //http 요청 방지
-        // 데이터 유효성 검사 생략
-        const postData = {
-            body: enteredBody,
-            author: enteredAuthor,
-        };
-        // 이렇게 가져온 postData는 포스트목록에 추가되고, 컴포넌트 목록으로 화면에 렌더링되어야 한다.
-        onAddPost(postData);
-        onCancel();
-    }
-
+function NewPost() {
     return (
         <Modal>
-            <form className={classes.form} onSubmit={submitHandler}>
+            <Form method="post" className={classes.form}>
                 <p>
                     <label htmlFor="body">Text</label>
-                    <textarea id="body" required rows={3} onChange={bodyChangeHandler}/>
+                    <textarea id="body" name="body" required rows={3}/>
                 </p>
                 <p>
                     <label htmlFor="name">Your name</label>
-                    <input type="text" id="name" required onChange={authorChangeHandler}/>
+                    <input type="text" id="name" name="author" required/>
                 </p>
                 <p className={classes.actions}>
                     <Link to="/" type='button'>
@@ -48,10 +21,33 @@ function NewPost({ onAddPost }) {
                     </Link>
                     <button>Submit</button>
                 </p>
-            </form>
+            </Form>
         </Modal>
     );
 }
 
 export default NewPost;
 // button에 type='button'을 추가하지않으면 브라우저가 자동으로 HTTP요청을 보냄.(디폴트 type submit)
+
+//export function action(data) {
+    // data파라미터 : Form에서 주는 인자가 아니라 리액트라우터가 만들고 구성한 요청 객체가 들어있다. 
+    //data.request
+export async function action({ request }) {
+    const formData = await request.formData(); //Form에 입력된 데이터를 가져온다.
+
+    const postData1 = formData.get('body');
+    const postData = Object.fromEntries(formData); // key-value형태로 입력데이터 추출
+
+    console.log('Form 데이터추출1',postData1);
+    console.log('Form 데이터추출2',postData);
+    const response = await fetch('http://localhost:8080/posts', {
+        method:'POST',
+        body:JSON.stringify(postData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    console.log('응답 분석', response);
+
+    return redirect('/'); // 이 함수 호출의 결과를 반환
+}
