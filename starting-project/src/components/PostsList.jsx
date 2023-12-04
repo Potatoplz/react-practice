@@ -12,7 +12,14 @@ function PostsList() {
             <ul className={classes.posts}>
                 {/* <Post author="south" body="bad jab!" /> */}
                 {/* 모든 postData를 Post JSX요소로 변경 -> 배열을 JSX요소배열로 매핑 */}
-                {posts.map((post) => <Post key={post.body} author={post.author} body={post.body} />)}
+                {posts.map((post) => (
+                    <Post 
+                        key={post.id} 
+                        author={post.author} 
+                        body={post.body}
+                        postId={post.id}
+                        />
+                ))}
             </ul>
         )}
 
