@@ -1,25 +1,10 @@
-import { useState, useEffect } from "react";
+import { useLoaderData } from "react-router-dom";
+
 import Post from "./Post";
 import classes from "./PostsList.module.css";
 
 function PostsList() {
-    const [posts, setPosts] = useState([]); //새포스트 목록 업데이트
-    const [isFetching, setIsFetching] = useState(false); //로딩중
-
-    useEffect(() => {
-        async function fetchPosts() {
-            setIsFetching(true);
-            const response = await fetch('http://localhost:8080/posts')
-            const resData = await response.json();
-            if (!response.ok) {
-                console.log('error message');
-            }
-            setPosts(resData.posts);
-            setIsFetching(false);
-        }
-
-        fetchPosts();
-    }, []);
+    const posts = useLoaderData();
 
     function addPostHandler(postData) {
 
@@ -49,7 +34,7 @@ function PostsList() {
 
     return (
     <>
-        {!isFetching && posts.length > 0 && (      
+        {posts.length > 0 && (      
             <ul className={classes.posts}>
                 {/* <Post author="south" body="bad jab!" /> */}
                 {/* 모든 postData를 Post JSX요소로 변경 -> 배열을 JSX요소배열로 매핑 */}
@@ -57,20 +42,12 @@ function PostsList() {
             </ul>
         )}
 
-        {!isFetching && posts.length === 0 && (
+        {posts.length === 0 && (
             <div style={{ textAlign:'center', color:'black' }}>
                 <h2>There are no posts yet.</h2>
                 <p>Start adding some!</p>
             </div>
         )}
-
-        {isFetching && (
-            <div style={{ textAlign:'center', color:'black' }}>
-                <p>Loading posts...</p>
-            </div>
-        )}
-
-
     </>
     );
     }
