@@ -2,14 +2,22 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-import App from './App'
+import App from './routes/App'
+import NewPost from './routes/NewPost'
+import RootLayout from './routes/RootLayout'
 import './index.css'
-import NewPost from './components/NewPost'
 
 const router = createBrowserRouter([
-  { path: '/', element: <App /> },
-  { path: '/sample', element: <h2>Hello!</h2> },
-  { path: '/create-post', element: <NewPost /> },
+  { path: '/', 
+    element: <RootLayout />, 
+    children: [
+        { path: '/', 
+          element: <App />,
+          children: [{ path: '/create-post', element: <NewPost /> },], 
+        },
+        { path: '/sample', element: <h2>Hello!</h2> },
+      ], 
+  },
 ]);
 
 // index.html에 있는 root div에 접근해서 render()안에 있는 리액트 코드를 렌더

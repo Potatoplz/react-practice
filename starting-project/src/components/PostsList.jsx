@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import Post from "./Post";
-import NewPost from "./NewPost";
-import Modal from "./Modal";
 import classes from "./PostsList.module.css";
 
-function PostsList({isPosting, onStopPosting}) {
+function PostsList() {
     const [posts, setPosts] = useState([]); //새포스트 목록 업데이트
     const [isFetching, setIsFetching] = useState(false); //로딩중
 
@@ -51,16 +49,6 @@ function PostsList({isPosting, onStopPosting}) {
 
     return (
     <>
-        {/* NewPost를 Modal component로 wrapping */}
-        {isPosting && (
-            <Modal onClose={onStopPosting}>
-            <NewPost
-                onCancel={onStopPosting}
-                onAddPost={addPostHandler}
-            />
-            </Modal>
-        )}
-
         {!isFetching && posts.length > 0 && (      
             <ul className={classes.posts}>
                 {/* <Post author="south" body="bad jab!" /> */}
