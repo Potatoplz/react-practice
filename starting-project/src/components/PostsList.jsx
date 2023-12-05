@@ -4,7 +4,7 @@ import Post from "./Post";
 import classes from "./PostsList.module.css";
 
 function PostsList() {
-    const posts = useLoaderData();
+    const posts = useLoaderData(); // postsLoader의 반환값
 
     return (
     <>
@@ -18,7 +18,7 @@ function PostsList() {
                         author={post.author} 
                         body={post.body}
                         postId={post.id}
-                        />
+                    />
                 ))}
             </ul>
         )}
