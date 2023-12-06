@@ -1,11 +1,13 @@
-import { Component } from 'react';
+//import { Component } from 'react';
+//import { connect } from 'react-redux';
 import { useSelector, useDispatch, connect } from 'react-redux';
 
 import classes from './Counter.module.css';
 
 const Counter = () => {
   const dispatch = useDispatch(); // 이 함수는 redux store에 대한 action을 보낸다.
-  const counter = useSelector(state => state.counter);
+  const counter = useSelector((state) => state.counter);
+  const show = useSelector(state => state.showCounter);
 
   const incrementHandler = () => {
     dispatch({ type: 'increment' });
@@ -19,12 +21,14 @@ const Counter = () => {
     dispatch({ type: 'decrement' });
   };
 
-  const toggleCounterHandler = () => {};
+  const toggleCounterHandler = () => {
+    dispatch({ type: 'toggle' });
+  };
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{counter}</div>
+      {show && <div className={classes.value}>{counter}</div>}
       <div>
         <button onClick={incrementHandler}>Increment</button>
         <button onClick={increaseHandler}>Increase by 5</button>
