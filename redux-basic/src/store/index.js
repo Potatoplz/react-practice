@@ -10,6 +10,13 @@ const counterReducer = (state = { counter: 0 }, action) => {
         };
     }
 
+    // action payload 연결하기
+    if (action.type === 'increase') {
+        return {
+            counter: state.counter + action.amount,
+        };
+    }
+
     if (action.type === 'decrement') {
         return {
             counter: state.counter - 1
