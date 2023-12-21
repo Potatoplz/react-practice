@@ -1,47 +1,37 @@
 // redux 로직 관리하는 파일
 
-import { createStore } from 'redux';
+//import { createStore } from 'redux';
+import { createSlice, configureStore } from '@reduxjs/toolkit'
 
+export const INCREMENT = 'increment';
 const initialState = { counter: 0, showCounter: true};
 
-// reducer function : inputs(Old state, Dispatched Action)
-const counterReducer = (state = initialState, action) => {
-    if (action.type === 'increment') {
-        return {
-            counter: state.counter + 1,
-            showCounter: state.showCounter
-        };
+/** Redux toolkit */
+const counterSlice = createSlice({
+    name: 'counter',
+    initialState,
+    reducers: {
+        increment(state) {
+            state.counter++;
+        },
+        decrement(state) {
+            state.counter--;
+        },
+        increase(state, action) {
+            state.counter = state.counter + action.payload;
+        },
+        toggleCounter(state) {
+            state.showCounter = !state.showCounter;
+        },
     }
+});
 
-    // action payload 연결하기
-    if (action.type === 'increase') {
-        return {
-            counter: state.counter + action.amount,
-            showCounter: state.showCounter
-        };
-    }
+const store = configureStore({
+    reducer: counterSlice.reducer // counterSlice의 모든 리듀서 사용 가능
+    //reducer: { counter: counterSlice.reducer }
+});
 
-    if (action.type === 'decrement') {
-        return {
-            counter: state.counter - 1,
-            showCounter: state.showCounter
-        };
-    }
-
-    if (action.type === 'toggle') {
-        return {
-            showCounter: !state.showCounter,
-            counter: state.counter
-        };
-    }
-
-    return state;
-};
-
-// create store
-const store = createStore(counterReducer);
-
-console.log('index.js:::', store.getState()); // { counter: 1 }
+export const counterActions = counterSlice.actions;
 
 // 파일 내부에서 구독하고 dispatch하는게 아니라, export해서 react app과 redux store를 연결
 export default store;
