@@ -8,8 +8,8 @@ import classes from './Counter.module.css';
 
 const Counter = () => {
   const dispatch = useDispatch(); // 이 함수는 redux store에 대한 action을 보낸다.
-  const counter = useSelector((state) => state.counter);
-  const show = useSelector(state => state.showCounter);
+  const counter = useSelector((state) => state.counter.counter);
+  const show = useSelector(state => state.counter.showCounter);
 
   const incrementHandler = () => {
     //dispatch({ type: INCREMENT });
