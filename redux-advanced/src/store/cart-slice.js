@@ -11,11 +11,11 @@ const cartSlice = createSlice({
     addItemToCart(state, action) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
-
+      state.totalQuantity++; // 1개씩 증가
       if (!existingItem) {
         // 기존 아이템이 없는 경우
         state.items.push({
-          itemId: newItem.id,
+          id: newItem.id,
           price: newItem.price,
           quatity: 1,
           totalPrice: newItem.price,
@@ -35,6 +35,9 @@ const cartSlice = createSlice({
 
       // 기존 아이템에서 id값이 일치하는 항목을 찾는다.
       const existingItem = state.items.find((item) => item.id === id);
+
+      state.totalQuantity--; // 1개씩 감소
+
       if (existingItem.quatity === 1) {
         // 1개일 경우 전부 제거한다. -> 일치하지 않는 id만 필터링하는 방법으로 삭제처리
         state.items = state.items.filter((item) => item.id !== id);
