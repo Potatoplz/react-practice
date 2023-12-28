@@ -26,6 +26,7 @@ function App() {
       return;
     }
 
+    // add, remove일때만 sendCartData가 동작하게 하기 위해 changed 속성 추가
     if (cart.changed) {
       dispatch(sendCartData(cart));
     }
