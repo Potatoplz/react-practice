@@ -26,7 +26,9 @@ function App() {
       return;
     }
 
-    dispatch(sendCartData(cart));
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    }
   }, [cart, dispatch]); // cart가 변경될 때마다 useEffect를 실행.
 
   return (
