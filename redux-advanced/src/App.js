@@ -6,7 +6,7 @@ import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
 
-import { sendCartData } from './store/cart-actions';
+import { fetchCartData, sendCartData } from './store/cart-actions';
 
 let isInitial = true; // 컴포넌트 함수 외부에서 정의하면 컴포넌트가 재렌더링되도 초기화되지 않고, 이 파일이 처음으로 parse될 때 초기화 된다.
 
@@ -15,6 +15,10 @@ function App() {
   const showCart = useSelector((state) => state.ui.cartIsVisible);
   const cart = useSelector((state) => state.cart);
   const notification = useSelector((state) => state.ui.notification);
+
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
   useEffect(() => {
     if (isInitial) {

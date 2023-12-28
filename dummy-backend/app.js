@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { getStoredPosts, storePosts } = require('./data/posts');
+const { getStoredCarts, storeCarts } = require('./data/carts');
 
 const app = express();
 
@@ -16,23 +16,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// '/posts'로 get요청을 보내면 모든 포스트 반환
-app.get('/posts', async (req, res) => {
-  const storedPosts = await getStoredPosts();
+// '/cartlist'로 get요청을 보내면 모든 포스트 반환
+app.get('/cartlist', async (req, res) => {
+  const storedCarts = await getStoredCarts();
   await new Promise((resolve, reject) => setTimeout(() => resolve(), 1500)); // 실제 서버와 유사하게 딜레이를 주는 코드
-  res.json({ posts: storedPosts });
+  res.json(storedCarts);
 });
 
 // 게시 요청이 아래 API route(API경로) 에서 처리
 // 게시 요청을 백엔드의 아래 경로로 보내면 데이터 가공 후 posts.json파일에 저장된다.
 app.put('/cart', async (req, res) => {
-  const postData = req.body;
+  const cartData = req.body;
   console.log('req>>>', req.body);
   
-  const _message = postData.items.length > 0 ? 'Stored new cart.' : 'Initialized';
+  //const _message = cartData.items.length > 0 ? 'Stored new cart.' : 'Initialized';
 
-  await storePosts([postData]);
-  res.status(201).json({ message: _message, post: postData });
+  await storeCarts(cartData);
+  res.status(201).json({ message: 'Stored new cart.', cart: cartData });
 });
 
 app.listen(8080);

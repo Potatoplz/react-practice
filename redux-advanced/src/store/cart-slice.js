@@ -7,6 +7,7 @@ const cartSlice = createSlice({
     totalQuantity: 0,
   },
   reducers: {
+    // 백엔드에서 로드하는 장바구니로 프론트엔드 장바구니를 교체하는 reducer
     replaceCart(state, action) {
       state.totalQuantity = action.payload.totalQuantity;
       state.items = action.payload.items;
