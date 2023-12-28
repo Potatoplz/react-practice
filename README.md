@@ -1,8 +1,1 @@
-- redux-demo
-- redux-basic
-
-```
-npm install redux
-npm install redux react-redux
-npm install @reduxjs/toolkit
-```
+Todo-application with React + Typescript
