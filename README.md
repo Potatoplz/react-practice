@@ -1,3 +1,1 @@
-### Todo-application with React + Typescript
-
-- Functional component
+### React Context API
