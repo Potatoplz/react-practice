@@ -1,1 +1,3 @@
-Todo-application with React + Typescript
+### Todo-application with React + Typescript
+
+- Functional component
