@@ -1,15 +1,33 @@
+import { useState } from 'react';
+
+import NewTodo from './component/NewTodo';
 import Todos from './component/Todos';
 import Todo from './models/todo';
 
 function App() {
-  // Todo 클래스로 Todo객체를 만든다.
-  // new Todo를 2번 호출해서 Todo 2개 생성
-  // todos는 문자열 배열이 아니라 Todo 객체 배열
-  const todos = [new Todo('Learn React'), new Todo('Learn TypeScript')];
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  const addTodoHandler = (todoText: string) => {
+    // 새로운 Todo객체 생성
+    const newTodo = new Todo(todoText);
+
+    // 이전 state(prevTodos)를 기반으로 state 업데이트
+    setTodos((prevTodos) => {
+      //concat : 기존의 배열을 건드리지 않으면서 새로운 배열 생성
+      return prevTodos.concat(newTodo);
+    });
+  };
+
+  const removeTodoHandler = (todoId: string) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => todo.id !== todoId);
+    });
+  };
 
   return (
     <div>
-      <Todos items={todos} />
+      <NewTodo onAddTodo={addTodoHandler} />
+      <Todos items={todos} onRemoveTodo={removeTodoHandler} />
     </div>
   );
 }
