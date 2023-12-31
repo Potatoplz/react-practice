@@ -5,6 +5,7 @@ const { isValidEmail, isValidText } = require('../util/validation');
 
 const router = express.Router();
 
+// 가입 라우트: 입력값, 이메일, 비밀번호 유효성 체크 후 events.json에 저장
 router.post('/signup', async (req, res, next) => {
   const data = req.body;
   let errors = {};
