@@ -44,6 +44,11 @@ export async function action({ request }) {
 
   localStorage.setItem('token', token);
 
+  // 토큰 만료날짜 저장
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours() + 1);
+  localStorage.setItem('expiration', expiration.toISOString());
+
   // soon: manage that token
   return redirect('/'); // 메인으로 리턴
 }

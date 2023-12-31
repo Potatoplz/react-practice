@@ -1,7 +1,27 @@
 import { redirect } from 'react-router-dom';
 
+// 토큰의 잔여 유효시간을 추출
+export function getTokenDuration() {
+  const storedExpirationDate = localStorage.getItem('expiration');
+  const expirationData = new Date(storedExpirationDate);
+  const now = new Date();
+  const duration = expirationData.getTime() - now.getTime();
+  return duration;
+}
+
 export function getAuthToken() {
   const token = localStorage.getItem('token');
+
+  if (!token) {
+    return null;
+  }
+
+  const tokenDuration = getTokenDuration();
+
+  if (tokenDuration < 0) {
+    return 'EXPIRED';
+  }
+
   return token;
 }
 
