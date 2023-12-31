@@ -38,6 +38,12 @@ export async function action({ request }) {
     throw json({ message: 'Could not authenticate user.' }, { status: 500 });
   }
 
+  // 응답받은 토큰을 로컬스토리지에 저장
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem('token', token);
+
   // soon: manage that token
   return redirect('/'); // 메인으로 리턴
 }
